@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/model/user';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-register',
@@ -9,7 +10,6 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 })
 export class RegisterComponent implements OnInit {
 
-  passwordMatched:boolean = true;
 
   user: User = {
     email: '',
@@ -17,43 +17,28 @@ export class RegisterComponent implements OnInit {
     confirmPassword: '',
   }
 
-  errorMessage = '';
-  errorCode = '';
-  isLoading:boolean = false;
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
+
 
   register() {
-
-    if(this.isLoading) return;
-
-    this.isLoading = true;
-
-    this.errorMessage = '';
-    this.errorCode = '';
-
-    if(this.user.password !== this.user.confirmPassword){
-      this.passwordMatched = false;
-      return;
-    }
-
-    const auth = getAuth();
-    createUserWithEmailAndPassword(auth, this.user.email, this.user.password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        // ...
-      })
-      .catch((error) => {
-        this.errorCode = error.code;
-        this.errorMessage = error.message;
-        // ..
-      })
-      .finally(()=> this.isLoading = false);
+    this.authService.register(this.user);
   }
 
   ngOnInit(): void {
+  }
+
+  isLoading(){
+    return this.authService.isLoading;
+  }
+
+
+  errorMessage(){
+    return this.authService.errorMessage;
+  }
+
+  passwordMatched(){
+    return this.authService.passwordMatched;
   }
 
 }
