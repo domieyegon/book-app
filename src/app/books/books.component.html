@@ -1,7 +1,7 @@
 <h1>Programming book List</h1>
 
-<ul>
+<ul class="flex flex-wrap">
   <ng-container *ngFor="let x of books; let i=index;">
-    <app-book class="book" [book]="x"></app-book>
+    <app-book [book]="x"  class="w-1/3 p-5 text-center"></app-book>
   </ng-container>
 </ul>

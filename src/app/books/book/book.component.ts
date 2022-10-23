@@ -11,12 +11,20 @@ export class BookComponent implements OnInit {
 
   @Input() book: Book= {} as Book;
 
+  isInCart: boolean= false;
+
   constructor(
     private cartService: CartService
   ) { }
 
   addToCart(): void {
     this.cartService.add(this.book);
+    this.isInCart = true;
+  }
+
+  removeFromCart(): void {
+    this.cartService.remove(this.book);
+    this.isInCart= false;
   }
 
   ngOnInit(): void {

@@ -6,15 +6,23 @@ import { Book } from '../model/book';
 })
 export class CartService {
 
-  cart:Book[] = [];
+  cart: Book[] = [];
 
   constructor() { }
 
-  add(book:Book){
+  add(book: Book) {
     this.cart.push(book);
   }
 
-  get(){
+  remove(book: Book) {
+    const index = this.cart.findIndex(b  => b === book);
+
+    this.cart.splice(index, 1);
+
+    // this.cart = this.cart.filter(b=> b != book);
+  }
+
+  get() {
     return this.cart;
   }
 }
