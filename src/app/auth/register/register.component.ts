@@ -17,9 +17,20 @@ export class RegisterComponent implements OnInit {
     confirmPassword: '',
   }
 
+  errorMessage = '';
+  errorCode = '';
+  isLoading:boolean = false;
+
   constructor() { }
 
   register() {
+
+    if(this.isLoading) return;
+
+    this.isLoading = true;
+
+    this.errorMessage = '';
+    this.errorCode = '';
 
     if(this.user.password !== this.user.confirmPassword){
       this.passwordMatched = false;
@@ -35,10 +46,11 @@ export class RegisterComponent implements OnInit {
         // ...
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        this.errorCode = error.code;
+        this.errorMessage = error.message;
         // ..
-      });
+      })
+      .finally(()=> this.isLoading = false);
   }
 
   ngOnInit(): void {
