@@ -1,0 +1,7 @@
+<h1>Programming book List</h1>
+
+<ul>
+  <ng-container *ngFor="let x of books; let i=index;">
+    <app-book class="book" [book]="x"></app-book>
+  </ng-container>
+</ul>
